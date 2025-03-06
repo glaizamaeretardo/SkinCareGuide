@@ -1,4 +1,5 @@
-﻿
+﻿//See https:aka.ms/new-console-template for more information
+
 using System;
 
 namespace SkincareGuide
@@ -70,8 +71,8 @@ namespace SkincareGuide
                         break;
                 }
 
-                Console.WriteLine("\nWould you like another guide? Yes or No?");
-                string response = Console.ReadLine().ToLower();
+                Console.WriteLine("\nWould you like another guide? YES or NO?");
+                string response = Console.ReadLine().ToUpper();
 
                 if (response != "YES")
                 {
