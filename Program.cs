@@ -78,7 +78,7 @@ namespace SkinCareGuide
                     Console.WriteLine("- STEP 5: Mineral (zinc oxide or titanium dioxide) Sunscreen");
                     break;
 
-                case 4: // combi skin (oily and dry)
+                case 4: //combi skin (oily and dry)
                     Console.WriteLine("- STEP 1: Gel-based or Foaming Cleanser");
                     Console.WriteLine("- STEP 2: Alcohol-Free and Balancing Toner");
                     Console.WriteLine("- STEP 3: Niacinamide or Hyaluronic Acid Serum");
