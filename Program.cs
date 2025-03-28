@@ -52,7 +52,7 @@ namespace SkinCareGuide
                     OptionTwoProcess();
                 }
 
-                else if (option == "3")
+                else if (option == "3") //for option 3
                 {
                     ViewReference();
                 }
@@ -155,7 +155,7 @@ namespace SkinCareGuide
             return skinType;
         }
 
-        static void DisplayFiveSteps(int skinType)
+        static void DisplayFiveSteps(int skinType) //made the steps in sentences
         {
             Console.WriteLine($"\nHi! Based on your skin type, here's your recommended basic 5-step of skin care routine for you to try:\n");
 
