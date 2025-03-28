@@ -7,8 +7,6 @@ namespace SkinCareGuide
     {
         static Dictionary<string, string> savedReference = new Dictionary<string, string>();
 
-        public static object SCGProcess { get; private set; }
-
         static void Main(string[] args)
         {
             Console.WriteLine("Hi! Welcome to the Basic 5-Step Skin Care Routine Guide!");

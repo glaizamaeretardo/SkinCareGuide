@@ -14,7 +14,7 @@ namespace SkinCareGuide_BDLogic
             savedReference[name] = STCategory;
         }
 
-        public static string GetSkinTypeName(int skinType)
+        public static string GetSkinTypeName(int skinType)//moved here from Program.cs
         {
             return skinType switch
             {
