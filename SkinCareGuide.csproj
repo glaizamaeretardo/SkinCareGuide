@@ -7,4 +7,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="SkinCareGuide_BDLogic\**" />
+    <EmbeddedResource Remove="SkinCareGuide_BDLogic\**" />
+    <None Remove="SkinCareGuide_BDLogic\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="SkinCareGuide_BDLogic\SkinCareGuide_BDLogic.csproj" />
+  </ItemGroup>
+
 </Project>
