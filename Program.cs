@@ -89,15 +89,7 @@ namespace SkinCareGuide
             Console.WriteLine("\n4. Does your skin feel balanced, not too oily or dry, throughout the day?");
             bool normalSkin = Console.ReadLine().Trim().ToLower() == "yes";
 
-            if (oilySkin && !drySkin && !sensitiveSkin)
-                return 1;
-            if (!oilySkin && drySkin && !sensitiveSkin)
-                return 2;
-            if (sensitiveSkin)
-                return 3;
-            if (normalSkin)
-                return 5;
-            return 4; //for combination
+            return SkinCareGuide_BDLogic.SCGProcess.FindOutSkinType(oilySkin, drySkin, sensitiveSkin, normalSkin);
         }
 
         static void DisplayOptionOneResult(int skinType)
