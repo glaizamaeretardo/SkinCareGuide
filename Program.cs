@@ -1,78 +1,109 @@
 ﻿using System;
+using System.Collections.Generic;
 using SkinCareGuide_BDLogic;
+using SCG_BDLogic;
 
 namespace SkinCareGuide
 {
     internal class Program
     {
-        static Dictionary<string, string> savedReference = new Dictionary<string, string>();
-
         static void Main(string[] args)
         {
             Console.WriteLine("Hi! Welcome to the Basic 5-Step Skin Care Routine Guide!");
 
-            while (true) //added a menu
+            while (true)
             {
-                Console.WriteLine("\nPlease select an option: ");
-                Console.WriteLine("[1] I don't know my skin type yet! (Take a quick test)");
-                Console.WriteLine("[2] I already know my skin type! (Show the basic routine)");
-                Console.WriteLine("[3] View reference (Check saved user details)");
-                string option = Console.ReadLine();
+                DisplayMainMenu();
+                string menu = Console.ReadLine();
 
-                if (option == "1") //for option 1
+                switch (menu)
                 {
-                    int skinType = FindOutSkinType();
-                    DisplayOptionOneResult(skinType);
+                    case "1":
+                        SkinTypeTest();
+                        break;
 
-                    if (skinType == 5)
-                    {
-                        Console.WriteLine("Since you have NORMAL skin, all you need to do is maintain your current routine!");
-                    }
+                    case "2":
+                        GetUserSkinType();
+                        break;
 
-                    else
-                    {
-                        Console.WriteLine("Do you want to know your recommended 5-step basic skin care routine? Please type Yes or No:");
-                        if (Console.ReadLine().Trim().ToLower() == "yes")
-                        {
-                            DisplayFiveSteps(skinType);
+                    case "3":
+                        ViewReference();
+                        break;
 
-                            Console.WriteLine("\nDo you want to save your details for reference? Please type Yes or No:");
-                            if (Console.ReadLine().Trim().ToLower() == "yes")
-                            {
-                                SaveUserDetails(skinType);
-                            }
-                        }
-                    }
+                    case "4":
+                        UpdateUserDetails();
+                        break;
+
+                    case "5":
+                        DeleteUserDetails();
+                        break;
+
+                    case "6":
+                        SearchUserDetails();
+                        break;
+
+                    default:
+                        Console.WriteLine("Not a valid option! Please enter number between 1 to 5 only.");
+                        break;
                 }
-
-                else if (option == "2") //for option 2
-                {
-                    OptionTwoProcess();
-                }
-
-                else if (option == "3") //for option 3
-                {
-                    ViewReference();
-                }
-
-                else
-                {
-                    Console.WriteLine("Not a valid option! Please enter number between 1 to 3 only.");
-                    continue;
-                }
-
                 Console.WriteLine("\nDo you want to go back to the menu? Please type Yes or No:");
-                if (Console.ReadLine().Trim().ToLower() != "yes")
+                string backToMenu = Console.ReadLine().Trim().ToLower();
+                
+                if (backToMenu != "yes")
                 {
-                    Console.WriteLine($"Thank you! Keep slaying that glow!");
+                    Console.WriteLine("\nThank you! Keep slaying that glow!");
                     break;
                 }
             }
         }
 
-        static int FindOutSkinType() //added another skin type (normal)
+        static void DisplayMainMenu()
         {
+            Console.WriteLine("\nPlease select an option: ");
+            Console.WriteLine("[1] I don't know my skin type yet! (Take a quick test)");
+            Console.WriteLine("[2] I already know my skin type! (Show the basic routine)");
+            Console.WriteLine("[3] View reference (Check saved user details)");
+            Console.WriteLine("[4] Update a saved user");
+            Console.WriteLine("[5] Delete a saved user");
+            Console.WriteLine("[6] Search a user by name");
+        }
 
+        static void SkinTypeTest()
+        {
+            int skinType = AskSkinType();
+            DisplaySkinTypeResult(skinType);
+
+            if (skinType == 5)
+            {
+                Console.WriteLine("Since you have NORMAL skin, all you need to do is maintain your current routine!");
+            }
+
+            else
+            {
+                Console.WriteLine("Do you want to know your recommended 5-step basic skin care routine? Please type Yes or No:");
+                string displayRoutine = Console.ReadLine().Trim().ToLower();
+
+                if (displayRoutine == "yes")
+                {
+                    DisplayFiveSteps(skinType);
+
+                    Console.WriteLine("\nDo you want to save your details for reference? Please type Yes or No:");
+                    string save = Console.ReadLine().Trim().ToLower();
+                    if (save == "yes")
+                    {
+                        Console.WriteLine("-----------------------------------------------------------");
+                        Console.WriteLine("Please type your name: ");
+                        string nameToAdd = Console.ReadLine();
+
+                        SCGData.SaveUserDetails(nameToAdd, skinType);
+                        Console.WriteLine("\nYour details have been saved!");
+                    }
+                }
+            }
+        }
+
+        static int AskSkinType()
+        {
             Console.WriteLine("-----------------------------------------------------------");
             Console.WriteLine("Answer these following questions with Yes or No only:");
             Console.WriteLine("\n1. Does your face appear oily or greasy a few hours after washing?");
@@ -87,67 +118,20 @@ namespace SkinCareGuide
             Console.WriteLine("\n4. Does your skin feel balanced, not too oily or dry, throughout the day?");
             bool normalSkin = Console.ReadLine().Trim().ToLower() == "yes";
 
-            return SkinCareGuide_BDLogic.SCGProcess.FindOutSkinType(oilySkin, drySkin, sensitiveSkin, normalSkin);
+            return SCGProcess.FindOutSkinType(oilySkin, drySkin, sensitiveSkin, normalSkin);
         }
 
-        static void DisplayOptionOneResult(int skinType)
+        static void DisplaySkinTypeResult(int skinType)
         {
             Console.WriteLine("-----------------------------------------------------------");
             Console.WriteLine("Your skin type is: ");
-
-            switch (skinType)
-            {
-                case 1:
-                    Console.WriteLine("OILY");
-                    break;
-                case 2:
-                    Console.WriteLine("DRY");
-                    break;
-                case 3:
-                    Console.WriteLine("SENSITIVE");
-                    break;
-                case 4:
-                    Console.WriteLine("COMBINATION (Oily + Dry)");
-                    break;
-                case 5:
-                    Console.WriteLine("NORMAL");
-                    break;
-            }
+            Console.WriteLine(SCGProcess.GetSkinTypeName(skinType));
             Console.WriteLine("-----------------------------------------------------------");
         }
 
-        static void OptionTwoProcess()
+        static void DisplayFiveSteps(int skinType)
         {
-            while (true)
-            {
-                int skinType = GetUserSkinType();
-                if (skinType == -1)
-                {
-                    Console.WriteLine("-----------------------------------------------------------");
-                    Console.WriteLine("Oops! Please type a number between 1 to 4 only.\n");
-                    continue;
-                }
-
-                DisplayFiveSteps(skinType);
-                break;
-            }
-        }
-
-        static int GetUserSkinType()
-        {
-            Console.WriteLine("Type the number of your skin type: ");
-            Console.WriteLine("1 - Oily \n2 - Dry \n3 - Sensitive \n4 - Combination (Oily + Dry)");
-
-            if (!int.TryParse(Console.ReadLine(), out int skinType) || skinType < 1 || skinType > 4)
-            {
-                return -1;
-            }
-            return skinType;
-        }
-
-        static void DisplayFiveSteps(int skinType) //made the steps in sentences
-        {
-            Console.WriteLine($"\nHi! Based on your skin type, here's your recommended basic 5-step of skin care routine for you to try:\n");
+            Console.WriteLine("\nHi! Based on your skin type, here's your recommended basic 5-step of skin care routine for you to try:\n");
 
             switch (skinType)
             {
@@ -175,7 +159,7 @@ namespace SkinCareGuide
                     Console.WriteLine("STEP 5: Finish with a mineral sunscreen for easy protection!");
                     break;
 
-                case 4: //for combination skin (oily and dry)
+                case 4: //for combination skin (oily + dry)
                     Console.WriteLine("STEP 1: Cleanse your face using a gel or foaming cleanser that suits both oily and dry skin.");
                     Console.WriteLine("STEP 2: Use a balancing toner to keep your skin feeling fresh and even.");
                     Console.WriteLine("STEP 3: Apply a serum with niacinamide or hyaluronic acid to hydrate while controlling oil.");
@@ -185,27 +169,102 @@ namespace SkinCareGuide
             }
         }
 
-        static void SaveUserDetails(int skinType)
+        static void GetUserSkinType()
         {
-            Console.WriteLine("-----------------------------------------------------------");
-            Console.WriteLine("Please type your name:");
-            string name = Console.ReadLine();
+            while (true)
+            {
+                Console.WriteLine("Type the number of your skin type: ");
+                Console.WriteLine("1 - Oily \n2 - Dry \n3 - Sensitive \n4 - Combination (Oily + Dry)");
 
-            SkinCareGuide_BDLogic.SCGProcess.SaveUserDetails(savedReference, name, skinType);
-            Console.WriteLine("\nYour details have been saved!");
+                if (int.TryParse(Console.ReadLine(), out int skinType) && skinType >= 1 && skinType <= 4)
+                {
+                    DisplayFiveSteps(skinType);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("-----------------------------------------------------------");
+                    Console.WriteLine("Oops! Please type a number between 1 to 4 only.\n");
+                }
+            }
         }
 
-        static void ViewReference()
+        static void ViewReference() //view was implemented (the option 3)
         {
             Console.WriteLine("-----------------------------------------------------------");
             Console.WriteLine("Here are the user's saved details:");
-            if (savedReference.Count == 0)
+            var viewUsers = SCGData.GetAllUserDetails();
+
+            if (viewUsers.Count == 0)
             {
                 Console.WriteLine("There's no user information available!");
             }
-            foreach (var reference in savedReference)
+            else
             {
-                Console.WriteLine($"Name: {reference.Key} \nUser Skin Type: {reference.Value}");
+                foreach (var reference in viewUsers)
+                {
+                    Console.WriteLine($"\nName: {reference.Key} \nUser's Skin Type: {reference.Value}");
+                }
+            }
+        }
+
+        //added other functionalities
+        static void UpdateUserDetails()
+        {
+            Console.WriteLine("-----------------------------------------------------------");
+            Console.WriteLine("Please type the name of the user you want to update: ");
+            string userToUpdate = Console.ReadLine();
+
+            Console.WriteLine("Type the number of your skin type: ");
+            Console.WriteLine("1 - Oily \n2 - Dry \n3 - Sensitive \n4 - Combination (Oily + Dry)");
+
+            if(int.TryParse(Console.ReadLine(), out int updatedSkinType) && updatedSkinType >= 1 && updatedSkinType <= 4)
+            {
+                if (SCGData.UpdateUserDetails(userToUpdate, updatedSkinType, out string newUserSkinType))
+                {
+                    Console.WriteLine($"\nUser '{userToUpdate}' has been updated! \nThe new skin type: {newUserSkinType}");
+                }
+                else
+                {
+                    Console.WriteLine("\nNo matching name found in the saved reference!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("-----------------------------------------------------------");
+                Console.WriteLine("Oops! Please type a number between 1 to 4 only.\n");
+            }
+        }
+
+        static void DeleteUserDetails()
+        {
+            Console.WriteLine("-----------------------------------------------------------");
+            Console.WriteLine("Please type the name you want to delete: ");
+            string nameToDelete = Console.ReadLine();
+
+            if (SCGData.DeleteUserDetails(nameToDelete))
+            {
+                Console.WriteLine($"User '{nameToDelete}' has been removed from the saved reference!");
+            }
+            else
+            {
+                Console.WriteLine("\nNo matching name found in the saved reference!");
+            }
+        }
+
+        static void SearchUserDetails()
+        {
+            Console.WriteLine("-----------------------------------------------------------");
+            Console.WriteLine("Please type the name you want to search: ");
+            string nameToSearch = Console.ReadLine();
+
+            if (SCGData.SearchUserDetails(nameToSearch, out string skinType))
+            {
+                Console.WriteLine($"Name: {nameToSearch} \nUser's Skin Type: {skinType}");
+            }
+            else
+            {
+                Console.WriteLine("\nNo matching name found in the saved reference!");
             }
         }
     }

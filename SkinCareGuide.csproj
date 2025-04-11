@@ -8,8 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ClassLibrary1\**" />
     <Compile Remove="SkinCareGuide_BDLogic\**" />
+    <EmbeddedResource Remove="ClassLibrary1\**" />
     <EmbeddedResource Remove="SkinCareGuide_BDLogic\**" />
+    <None Remove="ClassLibrary1\**" />
     <None Remove="SkinCareGuide_BDLogic\**" />
   </ItemGroup>
 

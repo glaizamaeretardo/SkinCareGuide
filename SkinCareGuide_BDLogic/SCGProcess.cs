@@ -1,32 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using SCG_BDLogic;
 
 namespace SkinCareGuide_BDLogic
 {
-    public class SCGProcess
+    public static class SCGProcess
     {
-        public static void SaveUserDetails(Dictionary<string, string> savedReference, string name, int skinType)
-        {
-            string STCategory = GetSkinTypeName(skinType);
-            savedReference[name] = STCategory;
-        }
-
-        public static string GetSkinTypeName(int skinType)//moved here from Program.cs
-        {
-            return skinType switch
-            {
-                1 => "OILY",
-                2 => "DRY",
-                3 => "SENSITIVE",
-                4 => "COMBINATION",
-                5 => "NORMAL",
-                _ => "UNKNOWN SKIN TYPE"
-            };
-        }
-
         public static int FindOutSkinType(bool oilySkin, bool drySkin, bool sensitiveSkin, bool normalSkin)
         {
             if (oilySkin && !drySkin && !sensitiveSkin)
@@ -37,7 +15,21 @@ namespace SkinCareGuide_BDLogic
                 return 3;
             if (normalSkin)
                 return 5;
-            return 4; //for combination
+
+            return 4; //if combination skin
+        }
+        
+        public static string GetSkinTypeName(int skinType)
+        {
+            return skinType switch
+            {
+                1 => "Oily",
+                2 => "Dry",
+                3 => "Sensitive",
+                4 => "Combination (Oily + Dry)",
+                5 => "Normal",
+                _ => "Unknown"
+            };
         }
     }
 }
