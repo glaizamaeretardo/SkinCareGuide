@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="SkinCareGuide_BDLogic\SkinCareGuide_BDLogic.csproj" />
+    <ProjectReference Include="..\SCG_BusinessLogic\SCG_BusinessLogic.csproj" />
   </ItemGroup>
 
 </Project>
