@@ -8,13 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="SCG_BusinessLogic\**" />
     <Compile Remove="SCG_Common\**" />
+    <Compile Remove="SCG_DataLogic\**" />
+    <EmbeddedResource Remove="SCG_BusinessLogic\**" />
     <EmbeddedResource Remove="SCG_Common\**" />
+    <EmbeddedResource Remove="SCG_DataLogic\**" />
+    <None Remove="SCG_BusinessLogic\**" />
     <None Remove="SCG_Common\**" />
+    <None Remove="SCG_DataLogic\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SCG_BusinessLogic\SCG_BusinessLogic.csproj" />
     <ProjectReference Include="SCG_Common\SCG_Common.csproj" />
   </ItemGroup>
 

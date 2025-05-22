@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	  <AssemblyName>SCG_DataLogic</AssemblyName>
+	  <RootNamespace>SCG_DataLogic</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\glaizamaeretardo\SCG_Common\SCG_Common.csproj" />
+    <ProjectReference Include="..\SCG_Common\SCG_Common.csproj" />
+  </ItemGroup>
+
+</Project>
