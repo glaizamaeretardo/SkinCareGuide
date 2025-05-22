@@ -4,12 +4,6 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	  <AssemblyName>SCG_BusinessLogic</AssemblyName>
-	  <RootNamespace>SCG_BusinessLogic</RootNamespace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\SCG_DataLogic\SCG_DataLogic.csproj" />
-  </ItemGroup>
 
 </Project>

@@ -8,16 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ClassLibrary1\**" />
-    <Compile Remove="SkinCareGuide_BDLogic\**" />
-    <EmbeddedResource Remove="ClassLibrary1\**" />
-    <EmbeddedResource Remove="SkinCareGuide_BDLogic\**" />
-    <None Remove="ClassLibrary1\**" />
-    <None Remove="SkinCareGuide_BDLogic\**" />
+    <Compile Remove="SCG_Common\**" />
+    <EmbeddedResource Remove="SCG_Common\**" />
+    <None Remove="SCG_Common\**" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SCG_BusinessLogic\SCG_BusinessLogic.csproj" />
+    <ProjectReference Include="SCG_Common\SCG_Common.csproj" />
   </ItemGroup>
 
 </Project>
