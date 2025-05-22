@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using SkinCareGuide_BDLogic;
-using SCG_BDLogic;
+using SCG_BusinessLogic;
 
 namespace SkinCareGuide
 {
