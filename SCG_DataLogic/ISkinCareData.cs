@@ -9,10 +9,9 @@ namespace SCG_DataLogic
 {
     public interface ISkinCareData
     {
-        void SaveUser(User user);
-        List<User> GetAllUsers();
-        void UpdateUser(string name, int newSkinType);
-        void DeleteUser(string name);
-        User SearchUser(string name);
+        List<User> GetUsers();
+        void AddUser(User user);
+        void UpdateUser(User user);
+        void DeleteUser(User user);
     }
 }

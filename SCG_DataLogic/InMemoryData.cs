@@ -11,33 +11,26 @@ namespace SCG_DataLogic
     {
         private List<User> users = new List<User>();
 
-        public void SaveUser(User user)
+        public List<User> GetUsers()
+        {
+            return users;
+        }
+
+        public void AddUser(User user)
         {
             users.Add(user);
         }
 
-        public List<User> GetAllUsers()
+        public void UpdateUser(User user)
         {
-            return new List<User>(users);
+            int index = users.FindIndex(u => u.Name == user.Name);
+            if (index >= 0)
+                users[index] = user;
         }
 
-        public void UpdateUser(string name, int newSkinType)
+        public void DeleteUser(User user)
         {
-            User user = users.FirstOrDefault(u => u.Name == name);
-            if (user != null)
-            {
-                user.SkinType = newSkinType;
-            }
-        }
-
-        public void DeleteUser(string name)
-        {
-            users.RemoveAll(u => u.Name == name);
-        }
-
-        public User SearchUser(string name)
-        {
-            return users.FirstOrDefault(u => u.Name == name);
+            users.RemoveAll(u => u.Name == user.Name);
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SCG_Common;
-using System.IO;
+﻿using SCG_Common;
 using System.Text.Json;
 
 namespace SCG_DataLogic
@@ -12,46 +6,52 @@ namespace SCG_DataLogic
     public class JsonFileData : ISkinCareData
     {
         private readonly string filePath = "users.json";
+        private List<User> users;
 
-        public void SaveUser(User user)
+        public JsonFileData()
         {
-            var users = GetAllUsers();
-            users.Add(user);
-            File.WriteAllText(filePath, JsonSerializer.Serialize(users));
-        }
-
-        public List<User> GetAllUsers()
-        {
-            if (!File.Exists(filePath)) return new List<User>();
+            if (File.Exists(filePath))
             {
                 string json = File.ReadAllText(filePath);
-                return JsonSerializer.Deserialize<List<User>>(json) ?? new List<User>();
+                users = JsonSerializer.Deserialize<List<User>>(json) ?? new List<User>();
             }
-        }
-
-        public void UpdateUser(string name, int newSkinType)
-        {
-            var users = GetAllUsers();
-            var user = users.FirstOrDefault(u => u.Name == name);
-            if (user != null)
+            else
             {
-                user.SkinType = newSkinType;
-                File.WriteAllText(filePath, JsonSerializer.Serialize(users));
+                users = new List<User>();
             }
         }
 
-        public void DeleteUser(string name)
+        public List<User> GetUsers()
         {
-            var users = GetAllUsers();
-            var user = users.FirstOrDefault(u => u.Name == name);
-            File.WriteAllText(filePath, JsonSerializer.Serialize(users));
+            return users;
         }
 
-        public User SearchUser(string name)
+        public void AddUser(User user)
         {
-            return GetAllUsers().FirstOrDefault(u => u.Name == name);
+            users.Add(user);
+            SaveToFile();
+        }
+
+        public void UpdateUser(User user)
+        {
+            var existing = users.FirstOrDefault(u => u.Name == user.Name);
+            if (existing != null)
+            {
+                existing.SkinType = user.SkinType;
+                SaveToFile();
+            }
+        }
+
+        public void DeleteUser(User user)
+        {
+            users.RemoveAll(u => u.Name == user.Name);
+            SaveToFile();
+        }
+
+        private void SaveToFile()
+        {
+            string json = JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(filePath, json);
         }
     }
-
-
 }

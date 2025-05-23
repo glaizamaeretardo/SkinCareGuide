@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using SCG_BusinessLogic;
+using SCG_Common;
 using SCG_DataLogic;
 
 namespace SkinCareGuide
 {
     internal class Program
     {
+        static SCGData dataService = new SCGData();
         static void Main(string[] args)
         {
             Console.WriteLine("Hi! Welcome to the Basic 5-Step Skin Care Routine Guide!");
@@ -95,7 +97,7 @@ namespace SkinCareGuide
                         Console.WriteLine("Please type your name: ");
                         string nameToAdd = Console.ReadLine();
 
-                        SCGData.SaveUserDetails(nameToAdd, skinType);
+                        dataService.SaveUserDetails(nameToAdd, skinType);
                         Console.WriteLine("\nYour details have been saved!");
                     }
                 }
@@ -193,7 +195,7 @@ namespace SkinCareGuide
         {
             Console.WriteLine("-----------------------------------------------------------");
             Console.WriteLine("Here are the user's saved details:");
-            var viewUsers = SCGData.GetAllUserDetails();
+            var viewUsers = dataService.GetAllUserDetails();
 
             if (viewUsers.Count == 0)
             {
@@ -201,9 +203,9 @@ namespace SkinCareGuide
             }
             else
             {
-                foreach (var reference in viewUsers)
+                foreach (var reference in dataService.GetAllUserDetails())
                 {
-                    Console.WriteLine($"\nName: {reference.Key} \nUser's Skin Type: {reference.Value}");
+                    Console.WriteLine($"\nName: {reference.Name} \nUser's Skin Type: {(SkinType)reference.SkinType}");
                 }
             }
         }
@@ -220,7 +222,7 @@ namespace SkinCareGuide
 
             if(int.TryParse(Console.ReadLine(), out int updatedSkinType) && updatedSkinType >= 1 && updatedSkinType <= 4)
             {
-                if (SCGData.UpdateUserDetails(userToUpdate, updatedSkinType, out string newUserSkinType))
+                if (dataService.UpdateUserDetails(userToUpdate, updatedSkinType, out string newUserSkinType))
                 {
                     Console.WriteLine($"\nUser '{userToUpdate}' has been updated! \nThe new skin type: {newUserSkinType}");
                 }
@@ -242,7 +244,7 @@ namespace SkinCareGuide
             Console.WriteLine("Please type the name you want to delete: ");
             string nameToDelete = Console.ReadLine();
 
-            if (SCGData.DeleteUserDetails(nameToDelete))
+            if (dataService.DeleteUserDetails(nameToDelete))
             {
                 Console.WriteLine($"User '{nameToDelete}' has been removed from the saved reference!");
             }
@@ -258,7 +260,7 @@ namespace SkinCareGuide
             Console.WriteLine("Please type the name you want to search: ");
             string nameToSearch = Console.ReadLine();
 
-            if (SCGData.SearchUserDetails(nameToSearch, out string skinType))
+            if (dataService.SearchUserDetails(nameToSearch, out string skinType))
             {
                 Console.WriteLine($"Name: {nameToSearch} \nUser's Skin Type: {skinType}");
             }

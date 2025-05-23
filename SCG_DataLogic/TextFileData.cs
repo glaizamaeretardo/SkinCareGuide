@@ -11,46 +11,63 @@ namespace SCG_DataLogic
     public class TextFileData : ISkinCareData
     {
         private readonly string filePath = "users.txt";
-        
-        public void SaveUser(User user)
-        {
-            File.AppendAllLines(filePath, new[] { $"{user.Name}|{user.SkinType}" });
-        }
-        
-        public List<User> GetAllUsers()
-        {
-            if (!File.Exists(filePath)) return new List<User>();
+        private List<User> users = new List<User>();
 
-            return File.ReadAllLines(filePath)
-                .Select(line => line.Split('|'))
-                .Where(parts => parts.Length == 2)
-                .Select(parts => new User { Name = parts[0], SkinType = int.Parse(parts[1]) })
-                .ToList();
+        public TextFileData()
+        {
+            LoadFromFile();
         }
 
-        public void UpdateUser(string name, int newSkinType)
+        private void LoadFromFile()
         {
-            var users = GetAllUsers();
-            var user = users.FirstOrDefault(u => u.Name == name);
-            if(user != null)
+            if (!File.Exists(filePath))
+                return;
+
+            var lines = File.ReadAllLines(filePath);
+            foreach (var line in lines)
             {
-                user.SkinType = newSkinType;
-                File.WriteAllLines(filePath, users.Select(u => $"{u.Name}|{u.SkinType}"));
+                var parts = line.Split('|');
+                if (parts.Length == 2)
+                {
+                    users.Add(new User
+                    {
+                        Name = parts[0],
+                        SkinType = int.Parse(parts[1])
+                    });
+                }
             }
         }
 
-        public void DeleteUser(string name)
+        private void SaveToFile()
         {
-            var users = GetAllUsers();
-            users.RemoveAll(u => u.Name == name);
-            File.WriteAllLines(filePath, users.Select(u => $"{u.Name}|{u.SkinType}"));
+            var lines = users.Select(u => $"{u.Name}|{u.SkinType}").ToArray();
+            File.WriteAllLines(filePath, lines);
         }
 
-        public User SearchUser(string name)
+        public List<User> GetUsers() => users;
+
+        public void AddUser(User user)
         {
-            return GetAllUsers().FirstOrDefault(u => u.Name == name);
+            users.Add(user);
+            SaveToFile();
+        }
+
+        public void UpdateUser(User user)
+        {
+            int index = users.FindIndex(u => u.Name == user.Name);
+            if (index >= 0)
+            {
+                users[index] = user;
+                SaveToFile();
+            }
+        }
+
+        public void DeleteUser(User user)
+        {
+            users.RemoveAll(u => u.Name == user.Name);
+            SaveToFile();
         }
     }
 
-   
+
 }
