@@ -9,9 +9,11 @@ namespace SCG_Common
     public class User
     {
         public string Name { get; set; }
-        public SkinType SkinType { get; set; }
+        public int SkinType { get; set; }
 
-        public User (string name, SkinType skinType)
+        public User() { }
+
+        public User (string name, int skinType)
         {
             Name = name;
             SkinType = skinType;

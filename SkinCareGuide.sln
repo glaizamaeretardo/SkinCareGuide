@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkinCareGuide", "SkinCareGu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCG_Common", "SCG_Common\SCG_Common.csproj", "{390958D6-D8C0-2D00-7E0B-EC36149995F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCG_BusinessLogic", "SCG_BusinessLogic\SCG_BusinessLogic.csproj", "{D74D7A32-4BB6-3823-4CFA-948FD75816EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCG_DataLogic", "SCG_DataLogic\SCG_DataLogic.csproj", "{D077AFB1-7606-8DBE-135D-E03BB9F73594}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{390958D6-D8C0-2D00-7E0B-EC36149995F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{390958D6-D8C0-2D00-7E0B-EC36149995F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{390958D6-D8C0-2D00-7E0B-EC36149995F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D74D7A32-4BB6-3823-4CFA-948FD75816EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D74D7A32-4BB6-3823-4CFA-948FD75816EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D74D7A32-4BB6-3823-4CFA-948FD75816EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D74D7A32-4BB6-3823-4CFA-948FD75816EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D077AFB1-7606-8DBE-135D-E03BB9F73594}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D077AFB1-7606-8DBE-135D-E03BB9F73594}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D077AFB1-7606-8DBE-135D-E03BB9F73594}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D077AFB1-7606-8DBE-135D-E03BB9F73594}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
