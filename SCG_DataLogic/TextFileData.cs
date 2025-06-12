@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SCG_Common;
-using System.IO;
+﻿using SCG_Common;
 
 namespace SCG_DataLogic
 {
@@ -29,11 +23,14 @@ namespace SCG_DataLogic
                 var parts = line.Split('|');
                 if (parts.Length == 2)
                 {
-                    users.Add(new User
+                    if (Enum.TryParse(parts[1], out SkinType skinType))
                     {
-                        Name = parts[0],
-                        SkinType = int.Parse(parts[1])
-                    });
+                        users.Add(new User
+                        {
+                            Name = parts[0],
+                            SkinType = skinType
+                        });
+                    }
                 }
             }
         }
@@ -68,6 +65,4 @@ namespace SCG_DataLogic
             SaveToFile();
         }
     }
-
-
 }

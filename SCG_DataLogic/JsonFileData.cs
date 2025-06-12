@@ -1,5 +1,6 @@
 ﻿using SCG_Common;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace SCG_DataLogic
 {
@@ -8,12 +9,18 @@ namespace SCG_DataLogic
         private readonly string filePath = "users.json";
         private List<User> users;
 
+        private readonly JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            Converters = { new JsonStringEnumConverter() }
+        };
+
         public JsonFileData()
         {
             if (File.Exists(filePath))
             {
                 string json = File.ReadAllText(filePath);
-                users = JsonSerializer.Deserialize<List<User>>(json) ?? new List<User>();
+                users = JsonSerializer.Deserialize<List<User>>(json, options) ?? new List<User>();
             }
             else
             {
@@ -50,10 +57,8 @@ namespace SCG_DataLogic
 
         private void SaveToFile()
         {
-            string json = JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true });
+            string json = JsonSerializer.Serialize(users, options);
             File.WriteAllText(filePath, json);
         }
     }
-
-
 }

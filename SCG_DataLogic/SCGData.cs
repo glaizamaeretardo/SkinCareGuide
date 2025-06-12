@@ -10,7 +10,7 @@ namespace SCG_DataLogic
         {
             skinCareData = new JsonFileData();
             //skinCareData = new TextFileData();
-            // skinCareData = new InMemoryData();
+            //skinCareData = new InMemoryData();
         }
 
         public List<User> GetAllUserDetails()
@@ -20,7 +20,7 @@ namespace SCG_DataLogic
 
         public void SaveUserDetails(string nameToAdd, int skinType)
         {
-            var user = new User { Name = nameToAdd, SkinType = skinType };
+            var user = new User { Name = nameToAdd, SkinType = (SkinType)skinType };
             var existing = skinCareData.GetUsers().FirstOrDefault(u => u.Name == nameToAdd);
             if (existing != null)
                 skinCareData.UpdateUser(user);
@@ -31,12 +31,12 @@ namespace SCG_DataLogic
         public bool UpdateUserDetails(string userToUpdate, int updatedSkinType, out string newUserSkinType)
         {
             newUserSkinType = string.Empty;
-            var user = skinCareData.GetUsers().FirstOrDefault(u => u.Name == userToUpdate);
-            if (user != null)
+            var existingUser = skinCareData.GetUsers().FirstOrDefault(u => u.Name == userToUpdate);
+            if (existingUser != null)
             {
-                user.SkinType = updatedSkinType;
-                skinCareData.UpdateUser(user);
-                newUserSkinType = ((SkinType)updatedSkinType).ToString();
+                existingUser.SkinType = (SkinType)updatedSkinType;
+                skinCareData.UpdateUser(existingUser);
+                newUserSkinType = existingUser.SkinType.ToString();
                 return true;
             }
             return false;
@@ -44,10 +44,10 @@ namespace SCG_DataLogic
 
         public bool DeleteUserDetails(string nameToDelete)
         {
-            var user = skinCareData.GetUsers().FirstOrDefault(u => u.Name == nameToDelete);
-            if (user != null)
+            var existingUser = skinCareData.GetUsers().FirstOrDefault(u => u.Name == nameToDelete);
+            if (existingUser != null)
             {
-                skinCareData.DeleteUser(user);
+                skinCareData.DeleteUser(existingUser);
                 return true;
             }
             return false;
@@ -55,12 +55,13 @@ namespace SCG_DataLogic
 
         public bool SearchUserDetails(string nameToSearch, out string skinType)
         {
-            var user = skinCareData.GetUsers().FirstOrDefault(u => u.Name == nameToSearch);
-            if (user != null)
+            var existingUser = skinCareData.GetUsers().FirstOrDefault(u => u.Name == nameToSearch);
+            if (existingUser != null)
             {
-                skinType = ((SkinType)user.SkinType).ToString();
+                skinType = existingUser.SkinType.ToString();
                 return true;
             }
+
             skinType = string.Empty;
             return false;
         }

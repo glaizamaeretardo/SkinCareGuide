@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace SCG_Common
 {
     public class User
     {
         public string Name { get; set; }
-        public int SkinType { get; set; }
+
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public SkinType SkinType { get; set; }
 
         public User() { }
 
-        public User (string name, int skinType)
+        public User(string name, SkinType skinType)
         {
             Name = name;
             SkinType = skinType;
