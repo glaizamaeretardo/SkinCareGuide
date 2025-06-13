@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.Sql;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using SCG_Common;
 
 namespace SCG_DataLogic
@@ -16,69 +15,81 @@ namespace SCG_DataLogic
             sqlConnection = new SqlConnection(connectionString);
         }
 
-        public void AddUser(User user)
+        public bool AddUser(User user)
         {
-            string insertStatement = "INSERT INTO SkinCareData (Name, SkinType) VALUES (@Name, @SkinType)";
-            SqlCommand insertCommand = new SqlCommand(insertStatement, sqlConnection);
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string insertStatement = "INSERT INTO SkinCareData (Name, SkinType) VALUES (@Name, @SkinType)";
+                using (SqlCommand cmd = new SqlCommand(insertStatement, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Name", user.Name);
+                    cmd.Parameters.AddWithValue("@SkinType", user.SkinType.ToString());
 
-            insertCommand.Parameters.AddWithValue("@Name", user.Name);
-            insertCommand.Parameters.AddWithValue("@SkinType", user.SkinType.ToString());
-
-            sqlConnection.Open();
-            int rowsAffected = insertCommand.ExecuteNonQuery();
-            sqlConnection.Close();
-
-        }
-
-        public void DeleteUser(User user)
-        {
-            string deleteStatement = "DELETE FROM SkinCareData WHERE Name = @Name";
-            SqlCommand deleteCommand = new SqlCommand(deleteStatement, sqlConnection);
-            deleteCommand.Parameters.AddWithValue("@Name", user.Name);
-
-            sqlConnection.Open();
-            int rowsAffected = deleteCommand.ExecuteNonQuery();
-            sqlConnection.Close();
-
+                    conn.Open();
+                    int rows = cmd.ExecuteNonQuery();
+                    return rows > 0;
+                }
+            }
         }
 
         public List<User> GetUsers()
         {
-            var users = new List<User>();
-            var selectStatement = "SELECT Name, SkinType FROM SkinCareData";
+            List<User> users = new List<User>();
 
-            using (var conn = new SqlConnection(connectionString))
-            using (var command = new SqlCommand(selectStatement, conn))
+            string selectStatement = "SELECT Name, SkinType FROM SkinCareData";
+
+            using (SqlCommand cmd = new SqlCommand(selectStatement, sqlConnection))
             {
-                conn.Open();
-                using (var reader = command.ExecuteReader())
+                sqlConnection.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         string name = reader["Name"].ToString();
                         string skinTypeStr = reader["SkinType"].ToString();
-
-                        SkinType skinTypeEnum = Enum.Parse<SkinType>(skinTypeStr);
-                        users.Add(new User(name, skinTypeEnum));
+                        if (Enum.TryParse(skinTypeStr, out SkinType skinTypeEnum))
+                        {
+                            users.Add(new User(name, skinTypeEnum));
+                        }
                     }
                 }
+                sqlConnection.Close();
             }
 
             return users;
         }
 
-        public void UpdateUser(User user)
+        public bool UpdateUser(User user)
         {
-            string updateStatement = "UPDATE SkinCareData SET SkinType = @SkinType WHERE Name = @Name";
-            SqlCommand updateCommand = new SqlCommand(updateStatement, sqlConnection);
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string updateStatement = "UPDATE SkinCareData SET SkinType = @SkinType WHERE Name = @Name";
+                using (SqlCommand cmd = new SqlCommand(updateStatement, conn))
+                {
+                    cmd.Parameters.AddWithValue("@SkinType", user.SkinType.ToString());
+                    cmd.Parameters.AddWithValue("@Name", user.Name);
 
-            updateCommand.Parameters.AddWithValue("@SkinType", user.SkinType.ToString());
-            updateCommand.Parameters.AddWithValue("@Name", user.Name);
+                    conn.Open();
+                    int rows = cmd.ExecuteNonQuery();
+                    return rows > 0;
+                }
+            }
+        }
 
-            sqlConnection.Open();
-            int rowsAffected = updateCommand.ExecuteNonQuery();
-            sqlConnection.Close();
+        public bool DeleteUser(User user)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string deleteStatement = "DELETE FROM SkinCareData WHERE Name = @Name";
+                using (SqlCommand cmd = new SqlCommand(deleteStatement, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Name", user.Name);
 
+                    conn.Open();
+                    int rows = cmd.ExecuteNonQuery();
+                    return rows > 0;
+                }
+            }
         }
     }
 }

@@ -33,26 +33,34 @@ namespace SCG_DataLogic
             return users;
         }
 
-        public void AddUser(User user)
+        public bool AddUser(User user)
         {
             users.Add(user);
             SaveToFile();
+            return true;
         }
 
-        public void UpdateUser(User user)
+        public bool UpdateUser(User user)
         {
             var existing = users.FirstOrDefault(u => u.Name == user.Name);
             if (existing != null)
             {
                 existing.SkinType = user.SkinType;
                 SaveToFile();
+                return true;
             }
+            return false;
         }
 
-        public void DeleteUser(User user)
+        public bool DeleteUser(User user)
         {
-            users.RemoveAll(u => u.Name == user.Name);
-            SaveToFile();
+            int removed = users.RemoveAll(u => u.Name == user.Name);
+            if (removed > 0)
+            {
+                SaveToFile();
+                return true;
+            }
+            return false;
         }
 
         private void SaveToFile()

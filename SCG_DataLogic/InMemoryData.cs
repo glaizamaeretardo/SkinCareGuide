@@ -11,21 +11,27 @@ namespace SCG_DataLogic
             return users;
         }
 
-        public void AddUser(User user)
+        public bool AddUser(User user)
         {
             users.Add(user);
+            return true;
         }
 
-        public void UpdateUser(User user)
+        public bool UpdateUser(User user)
         {
             int index = users.FindIndex(u => u.Name == user.Name);
             if (index >= 0)
+            {
                 users[index] = user;
+                return true;
+            }
+            return false;
         }
 
-        public void DeleteUser(User user)
+        public bool DeleteUser(User user)
         {
-            users.RemoveAll(u => u.Name == user.Name);
+            int removedCount = users.RemoveAll(u => u.Name == user.Name);
+            return removedCount > 0;
         }
     }
 }

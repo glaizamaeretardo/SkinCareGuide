@@ -21,16 +21,9 @@ namespace SCG_DataLogic
             foreach (var line in lines)
             {
                 var parts = line.Split('|');
-                if (parts.Length == 2)
+                if (parts.Length == 2 && Enum.TryParse(parts[1], out SkinType skinType))
                 {
-                    if (Enum.TryParse(parts[1], out SkinType skinType))
-                    {
-                        users.Add(new User
-                        {
-                            Name = parts[0],
-                            SkinType = skinType
-                        });
-                    }
+                    users.Add(new User { Name = parts[0], SkinType = skinType });
                 }
             }
         }
@@ -43,26 +36,34 @@ namespace SCG_DataLogic
 
         public List<User> GetUsers() => users;
 
-        public void AddUser(User user)
+        public bool AddUser(User user)
         {
             users.Add(user);
             SaveToFile();
+            return true;
         }
 
-        public void UpdateUser(User user)
+        public bool UpdateUser(User user)
         {
             int index = users.FindIndex(u => u.Name == user.Name);
             if (index >= 0)
             {
                 users[index] = user;
                 SaveToFile();
+                return true;
             }
+            return false;
         }
 
-        public void DeleteUser(User user)
+        public bool DeleteUser(User user)
         {
-            users.RemoveAll(u => u.Name == user.Name);
-            SaveToFile();
+            int removed = users.RemoveAll(u => u.Name == user.Name);
+            if (removed > 0)
+            {
+                SaveToFile();
+                return true;
+            }
+            return false;
         }
     }
 }
