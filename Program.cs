@@ -45,7 +45,7 @@ namespace SkinCareGuide
                         break;
 
                     default:
-                        Console.WriteLine("Not a valid option! Please enter number between 1 to 5 only.");
+                        Console.WriteLine("Not a valid option! Please enter number between 1 to 6 only.");
                         break;
                 }
                 Console.WriteLine("\nDo you want to go back to the menu? Please type Yes or No:");
