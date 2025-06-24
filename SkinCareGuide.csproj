@@ -11,12 +11,15 @@
     <Compile Remove="SCG_BusinessLogic\**" />
     <Compile Remove="SCG_Common\**" />
     <Compile Remove="SCG_DataLogic\**" />
+    <Compile Remove="SCG_Desktop\**" />
     <EmbeddedResource Remove="SCG_BusinessLogic\**" />
     <EmbeddedResource Remove="SCG_Common\**" />
     <EmbeddedResource Remove="SCG_DataLogic\**" />
+    <EmbeddedResource Remove="SCG_Desktop\**" />
     <None Remove="SCG_BusinessLogic\**" />
     <None Remove="SCG_Common\**" />
     <None Remove="SCG_DataLogic\**" />
+    <None Remove="SCG_Desktop\**" />
   </ItemGroup>
 
   <ItemGroup>
