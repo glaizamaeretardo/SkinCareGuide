@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCG_DataLogic", "SCG_DataLo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCG_Desktop", "SCG_Desktop\SCG_Desktop.csproj", "{AC262844-C6F5-4821-A57B-5F7D57B8D32D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCG_API", "SCG_API\SCG_API.csproj", "{DAA39D0D-8FBF-43AF-A59E-48D3AFF91496}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{AC262844-C6F5-4821-A57B-5F7D57B8D32D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC262844-C6F5-4821-A57B-5F7D57B8D32D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC262844-C6F5-4821-A57B-5F7D57B8D32D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAA39D0D-8FBF-43AF-A59E-48D3AFF91496}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAA39D0D-8FBF-43AF-A59E-48D3AFF91496}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAA39D0D-8FBF-43AF-A59E-48D3AFF91496}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAA39D0D-8FBF-43AF-A59E-48D3AFF91496}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
