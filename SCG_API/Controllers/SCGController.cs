@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SCG_Common;
-using SCG_BusinessLogic;
 using SCG_DataLogic;
 
 
@@ -12,32 +11,31 @@ namespace SCG_API.Controllers
     public class SCGController : ControllerBase
     {
         private static readonly InMemoryData data = new InMemoryData();
-        private static readonly SCGProcess scgProcess = new SCGProcess(data);
 
         [HttpGet]
         public ActionResult<List<User>> GetUsers()
         {
-            return Ok(scgProcess.GetAllUsers());
+            return Ok(data.GetUsers());
         }
 
         [HttpPost]
         public ActionResult<User> AddUser([FromBody] User user)
         {
-            scgProcess.AddUser(user);
+            data.AddUser(user);
             return Created("", user);
         }
 
         [HttpPatch]
         public ActionResult<string> UpdateUser([FromBody] User user)
         {
-            scgProcess.UpdateUser(user.Name, (int)user.SkinType, out string newSkinType);
-            return Ok(newSkinType);
+            data.UpdateUser(user);
+            return Ok(user.SkinType.ToString());
         }
 
         [HttpDelete]
         public ActionResult DeleteUser([FromBody] User user)
         {
-            scgProcess.DeleteUser(user);
+            data.DeleteUser(user);
             return Ok();
         }
     }
