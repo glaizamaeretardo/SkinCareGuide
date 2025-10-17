@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.14.1" />
+    <PackageReference Include="MimeKit" Version="4.14.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SCG_Common\SCG_Common.csproj" />
     <ProjectReference Include="..\SCG_DataLogic\SCG_DataLogic.csproj" />
   </ItemGroup>

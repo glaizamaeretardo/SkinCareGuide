@@ -10,8 +10,8 @@ namespace SCG_DataLogic
         {
             //skinCareData = new JsonFileData();
             //skinCareData = new TextFileData();
-            //skinCareData = new InMemoryData();
-            skinCareData = new DBSkinCareData();
+            skinCareData = new InMemoryData();
+            //skinCareData = new DBSkinCareData();
         }
 
         public List<User> GetAllUserDetails()
