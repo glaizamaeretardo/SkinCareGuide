@@ -9,7 +9,6 @@ namespace SkinCareGuide
     internal class Program
     {
         static SCGData dataService = new SCGData();
-        static SCGEmailService emailService = new SCGEmailService();
         static void Main(string[] args)
         {
             Console.WriteLine("Hi! Welcome to the Basic 5-Step Skin Care Routine Guide!");
@@ -101,8 +100,6 @@ namespace SkinCareGuide
                         dataService.SaveUserDetails(nameToAdd, skinType);
                         Console.WriteLine("\nYour details have been saved!");
 
-                        emailService.SendUserSkinTypeEmail(nameToAdd, SCGProcess.GetSkinTypeName(skinType));
-                        Console.WriteLine("\nA notification has been sent with your details!");
                     }
                 }
             }

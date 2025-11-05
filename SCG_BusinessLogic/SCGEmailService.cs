@@ -1,37 +1,63 @@
-﻿using System.Net;
-using System.Net.Mail;
+﻿using MailKit.Net.Smtp;
+using MailKit.Security;
+using Microsoft.Extensions.Configuration;
+using MimeKit;
 
 namespace SCG_BusinessLogic
 {
     public class SCGEmailService
     {
-        private readonly string smtpHost = "sandbox.smtp.mailtrap.io";
-        private readonly int smtpPort = 2525;
-        private readonly string smtpUser = "8c529fdf2e8324";
-        private readonly string smtpPass = "16ba0eddf26fc6";
-        private readonly string fromEmail = "noreply@skincareguide.com";
+        private readonly IConfiguration _configuration;
+
+        public SCGEmailService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         public void SendUserSkinTypeEmail(string userName, string skinType)
         {
-            try
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(
+                _configuration["SCGEmailSettings:FromName"],
+                _configuration["SCGEmailSettings:FromEmail"]
+            ));
+
+            message.To.Add(new MailboxAddress("User Notification", _configuration["SCGEmailSettings:ToEmail"]));
+            message.Subject = "Skin Care Guide - User Details Notification";
+
+            message.Body = new TextPart("plain")
             {
-                using (var client = new SmtpClient(smtpHost, smtpPort))
+                Text = $"Hi! This is your details:\n\n" +
+                       $"Name: {userName}\n" +
+                       $"Skin Type: {skinType}\n\n" +
+                       $"A new entry has been successfully added to the Skin Care Guide system."
+            };
+
+            using (var client = new SmtpClient())
+            {
+                try
                 {
-                    client.Credentials = new NetworkCredential(smtpUser, smtpPass);
-                    client.EnableSsl = true;
+                    client.Connect(
+                        _configuration["SCGEmailSettings:SmtpHost"],
+                        int.Parse(_configuration["SCGEmailSettings:SmtpPort"]),
+                        SecureSocketOptions.StartTls
+                    );
 
-                    var mail = new MailMessage();
-                    mail.From = new MailAddress(fromEmail, "Skin Care Guide");
-                    mail.To.Add("user@example.com");
-                    mail.Subject = "Skin Care Guide - Your Skin Type Details";
-                    mail.Body = $"This is your details:\n\nName: {userName}\nSkin Type: {skinType}";
+                    client.Authenticate(
+                        _configuration["SCGEmailSettings:Username"],
+                        _configuration["SCGEmailSettings:Password"]
+                    );
 
-                    client.Send(mail);
+                    client.Send(message);
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"\nFailed to send email!");
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[Error] Failed to send email: {ex.Message}");
+                }
+                finally
+                {
+                    client.Disconnect(true);
+                }
             }
         }
     }

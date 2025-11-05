@@ -1,4 +1,7 @@
 
+using SCG_BusinessLogic;
+using SCG_DataLogic;
+
 namespace SCG_API
 {
     public class Program
@@ -17,6 +20,9 @@ namespace SCG_API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped<SCGEmailService>();
+            builder.Services.AddScoped<InMemoryData>();
 
             var app = builder.Build();
 
